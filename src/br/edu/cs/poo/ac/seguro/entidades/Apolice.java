@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 public class Apolice {
+    private String numero;
     private Veiculo veiculo;
     private BigDecimal valorFranquia;
     private BigDecimal valorPremio;
