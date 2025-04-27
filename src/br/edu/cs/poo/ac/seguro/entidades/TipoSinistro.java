@@ -1,8 +1,9 @@
 package br.edu.cs.poo.ac.seguro.entidades;
 
 public enum TipoSinistro {
-    COLISAO(1, "Colisão"),
-    INCENDIO(2, "Incêndio"),
+
+    COLISAO(1,"Colisão"),
+    INCENDIO(2,"Incêndio"),
     FURTO(3, "Furto"),
     ENCHENTE(4, "Enchente"),
     DEPREDACAO(5, "Depredação");
@@ -24,9 +25,9 @@ public enum TipoSinistro {
     }
 
     public static TipoSinistro getTipoSinistro(int codigo) {
-        for (TipoSinistro tipo : TipoSinistro.values()) {
-            if (tipo.getCodigo() == codigo) {
-                return tipo;
+        for (TipoSinistro tipoSinistro : TipoSinistro.values()) {
+            if (tipoSinistro.codigo == codigo) {
+                return tipoSinistro;
             }
         }
         return null;

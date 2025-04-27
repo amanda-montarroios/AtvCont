@@ -36,6 +36,6 @@ class PrecosAnosCategoria {
             new PrecoAno(2022, 140000.0),
             new PrecoAno(2023, 170000.0),
             new PrecoAno(2024, 200000.0),
-            new PrecoAno(2025, 246000.0)};
-
+            new PrecoAno(2025, 246000.0)
+    };
 }

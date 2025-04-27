@@ -1,19 +1,21 @@
 package br.edu.cs.poo.ac.seguro.entidades;
 
-import lombok.Data;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@Data
-public class Sinistro {
+@Getter
+@Setter
+@RequiredArgsConstructor
+public class Sinistro implements Serializable {
+
     private String numero;
-    private Veiculo veiculo;
-    private LocalDate dataHoraSinistro;
-    private LocalDate dataHoraRegistro;
-    private String usuarioRegistro;
-    private BigDecimal valorSinistro;
-    private TipoSinistro tipo;
+    @NonNull private Veiculo veiculo;
+    @NonNull private LocalDateTime dataHoraSinistro;
+    @NonNull private LocalDateTime dataHoraRegistro;
+    @NonNull private String usuarioRegistro;
+    @NonNull private BigDecimal valorSinistro;
+    @NonNull private TipoSinistro tipo;
 }
