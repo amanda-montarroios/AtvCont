@@ -1,12 +1,9 @@
 package br.edu.cs.poo.ac.seguro.testes;
 
-import java.io.File;
-
+import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 import org.junit.jupiter.api.BeforeEach;
 
-import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
-import br.edu.cs.poo.ac.seguro.daos.SeguradoEmpresaDAO;
-import br.edu.cs.poo.ac.seguro.entidades.SeguradoEmpresa;
+import java.io.File;
 
 public abstract class TesteDAO {
     protected CadastroObjetos cadastro;
