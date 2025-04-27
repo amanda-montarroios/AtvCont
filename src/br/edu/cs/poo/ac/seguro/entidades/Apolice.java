@@ -8,7 +8,9 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Apolice implements Serializable {
+public class Apolice implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     private String numero;
     @NonNull private Veiculo veiculo;

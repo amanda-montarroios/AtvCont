@@ -9,35 +9,34 @@ public class SinistroDAO extends DAOGenerico{
         cadastro = new CadastroObjetos(Sinistro.class);
     }
 
-    public Sinistro buscar(String numero){
-        return (Sinistro)cadastro.buscar(numero);
+    public Sinistro buscar(String numero) {
+        return (Sinistro) cadastro.buscar(numero);
     }
 
-    public boolean incluir(Sinistro sinistro){
+    public boolean incluir(Sinistro sinistro) {
         if (buscar(sinistro.getNumero()) != null) {
             return false;
-        } else{
+        } else {
             cadastro.incluir(sinistro, sinistro.getNumero());
             return true;
         }
     }
 
-    public boolean alterar(Sinistro sinistro){
-        if (buscar(sinistro.getNumero()) == null){
+    public boolean alterar(Sinistro sinistro) {
+        if (buscar(sinistro.getNumero()) == null) {
             return false;
-        } else{
+        } else {
             cadastro.alterar(sinistro, sinistro.getNumero());
             return true;
         }
     }
 
-    public boolean excluir(String numero){
-        if (buscar(numero) == null){
+    public boolean excluir(String numero) {
+        if (buscar(numero) == null) {
             return false;
-        } else{
+        } else {
             cadastro.excluir(numero);
             return true;
         }
     }
-
 }

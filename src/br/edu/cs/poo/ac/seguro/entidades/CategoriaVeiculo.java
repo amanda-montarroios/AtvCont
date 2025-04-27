@@ -1,8 +1,8 @@
 package br.edu.cs.poo.ac.seguro.entidades;
 
 import static br.edu.cs.poo.ac.seguro.entidades.PrecosAnosCategoria.*;
-
 public enum CategoriaVeiculo {
+
 
     BASICO(1,"Veículo econômico", PA_BASICO),
     INTERMEDIARIO(2,"Veículo de categoria média", PA_INTERMEDIARIO),
@@ -13,7 +13,6 @@ public enum CategoriaVeiculo {
     private int codigo;
     private String nome;
     private PrecoAno[] precosAnos;
-
     private CategoriaVeiculo(int codigo, String nome, PrecoAno[] precosAnos) {
         this.codigo = codigo;
         this.nome = nome;

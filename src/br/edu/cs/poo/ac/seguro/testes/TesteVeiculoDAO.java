@@ -1,15 +1,14 @@
 package br.edu.cs.poo.ac.seguro.testes;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import br.edu.cs.poo.ac.seguro.daos.VeiculoDAO;
 import br.edu.cs.poo.ac.seguro.entidades.CategoriaVeiculo;
 import br.edu.cs.poo.ac.seguro.entidades.Veiculo;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public class TesteVeiculoDAO extends TesteDAO {
     private VeiculoDAO dao = new VeiculoDAO();
-
-    protected Class getClasse() {
+    protected Class<?> getClasse() {
         return Veiculo.class;
     }
 

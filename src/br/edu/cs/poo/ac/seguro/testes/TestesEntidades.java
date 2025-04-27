@@ -1,13 +1,12 @@
 package br.edu.cs.poo.ac.seguro.testes;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import br.edu.cs.poo.ac.seguro.entidades.SeguradoEmpresa;
 import br.edu.cs.poo.ac.seguro.entidades.SeguradoPessoa;
 import br.edu.cs.poo.ac.seguro.entidades.TipoSinistro;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public class TestesEntidades {
 
@@ -24,11 +23,13 @@ public class TestesEntidades {
         ts = TipoSinistro.getTipoSinistro(2);
         Assertions.assertEquals(ts, TipoSinistro.INCENDIO);
     }
+
     @Test
     public void teste02() {
         TipoSinistro ts = TipoSinistro.getTipoSinistro(7);
         Assertions.assertNull(ts);
     }
+
     @Test
     public void teste03() {
         SeguradoEmpresa seg = new SeguradoEmpresa("JOCA", null, null, BigDecimal.ZERO, null, 0.0, false);
@@ -36,6 +37,7 @@ public class TestesEntidades {
         seg.creditarBonus(new BigDecimal("50.00"));
         Assertions.assertEquals(seg.getBonus(), new BigDecimal("150.00"));
     }
+
     @Test
     public void teste04() {
         SeguradoPessoa seg = new SeguradoPessoa("MARIA", null, null, new BigDecimal("200.00"), null, 0.0);
@@ -43,6 +45,7 @@ public class TestesEntidades {
         seg.debitarBonus(new BigDecimal("20.00"));
         Assertions.assertEquals(seg.getBonus(), new BigDecimal("140.00"));
     }
+
     @Test
     public void teste05() {
         int ano = LocalDate.now().getYear() - 10;

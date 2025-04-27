@@ -1,17 +1,15 @@
 package br.edu.cs.poo.ac.seguro.testes;
 
-import br.edu.cs.poo.ac.seguro.daos.SeguradoEmpresaDAO;
-import br.edu.cs.poo.ac.seguro.entidades.SeguradoEmpresa;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import br.edu.cs.poo.ac.seguro.daos.SeguradoEmpresaDAO;
+import br.edu.cs.poo.ac.seguro.entidades.SeguradoEmpresa;
 
 public class TesteSeguradoEmpresaDAO extends TesteDAO {
     private SeguradoEmpresaDAO dao = new SeguradoEmpresaDAO();
-
-    protected Class getClasse() {
+    protected Class<?> getClasse() {
         return SeguradoEmpresa.class;
     }
 
@@ -28,6 +26,7 @@ public class TesteSeguradoEmpresaDAO extends TesteDAO {
     @Test
     public void teste02() {
         String cnpj = "10000000";
+
         cadastro.incluir(new SeguradoEmpresa("TESTE2", null, LocalDate.now(), BigDecimal.ZERO,
                 cnpj, 1001.0, false), cnpj);
         SeguradoEmpresa seg = dao.buscar("11000000");
@@ -90,7 +89,6 @@ public class TesteSeguradoEmpresaDAO extends TesteDAO {
     @Test
     public void teste08() {
         String cnpj = "77000000";
-
         SeguradoEmpresa seg = new SeguradoEmpresa("TESTE8", null, LocalDate.now(), BigDecimal.ZERO,
                 cnpj, 1007.0, false);
         cadastro.incluir(seg, cnpj);

@@ -1,15 +1,14 @@
 package br.edu.cs.poo.ac.seguro.entidades;
 
 public enum TipoSinistro {
-
     COLISAO(1,"Colisão"),
     INCENDIO(2,"Incêndio"),
     FURTO(3, "Furto"),
     ENCHENTE(4, "Enchente"),
     DEPREDACAO(5, "Depredação");
 
-    private final int codigo;
-    private final String nome;
+    private int codigo;
+    private String nome;
 
     private TipoSinistro(int codigo, String nome) {
         this.codigo = codigo;
@@ -25,9 +24,9 @@ public enum TipoSinistro {
     }
 
     public static TipoSinistro getTipoSinistro(int codigo) {
-        for (TipoSinistro tipoSinistro : TipoSinistro.values()) {
-            if (tipoSinistro.codigo == codigo) {
-                return tipoSinistro;
+        for (TipoSinistro tipo : TipoSinistro.values()) {
+            if (codigo == tipo.getCodigo()) {
+                return tipo;
             }
         }
         return null;

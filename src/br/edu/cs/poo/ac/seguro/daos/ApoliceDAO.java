@@ -9,35 +9,34 @@ public class ApoliceDAO extends DAOGenerico{
         cadastro = new CadastroObjetos(Apolice.class);
     }
 
-    public Apolice buscar(String numero){
-        return (Apolice)cadastro.buscar(numero);
+    public Apolice buscar(String numero) {
+        return (Apolice) cadastro.buscar(numero);
     }
 
-    public boolean incluir(Apolice apolice){
-        if (buscar(apolice.getNumero()) != null){
+    public boolean incluir(Apolice apolice) {
+        if (buscar(apolice.getNumero()) != null) {
             return false;
-        } else{
+        } else {
             cadastro.incluir(apolice, apolice.getNumero());
             return true;
         }
     }
 
-    public boolean alterar(Apolice apolice){
-        if (buscar(apolice.getNumero()) == null){
+    public boolean alterar(Apolice apolice) {
+        if (buscar(apolice.getNumero()) == null) {
             return false;
-        } else{
+        } else {
             cadastro.alterar(apolice, apolice.getNumero());
             return true;
         }
     }
 
-    public boolean excluir(String numero){
-        if (buscar(numero) == null){
+    public boolean excluir(String numero) {
+        if (buscar(numero) == null) {
             return false;
-        } else{
+        } else {
             cadastro.excluir(numero);
             return true;
         }
     }
-
 }

@@ -4,17 +4,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class SeguradoPessoa extends Segurado implements Serializable {
+public class SeguradoPessoa extends Segurado implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     private String cpf;
     private double renda;
 
-    public SeguradoPessoa(String nome, Endereco endereco, LocalDate dataNascimento,
-                          BigDecimal bonus, String cpf, double renda)
-    {
-        super(nome, endereco, dataNascimento, bonus);
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
         this.cpf = cpf;
-        this.renda = renda;
     }
 
     public double getRenda() {
@@ -25,19 +27,18 @@ public class SeguradoPessoa extends Segurado implements Serializable {
         this.renda = renda;
     }
 
+    public SeguradoPessoa(String nome, Endereco endereco, LocalDate dataNascimento, BigDecimal bonus,
+                          String cpf, double renda) {
+        super(nome, endereco, dataNascimento, bonus);
+        this.cpf = cpf;
+        this.renda = renda;
+    }
+
     public LocalDate getDataNascimento() {
         return super.getDataCriacao();
     }
 
     public void setDataNascimento(LocalDate dataNascimento) {
         super.setDataCriacao(dataNascimento);
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 }
