@@ -32,6 +32,10 @@ public class SeguradoEmpresa extends Segurado implements Serializable{
         return ehLocadoraDeVeiculos;
     }
 
+    public boolean ehLocadoraDeVeiculos() {
+        return this.ehLocadoraDeVeiculos;
+    }
+
     public void setEhLocadoraDeVeiculos(boolean ehLocadoraDeVeiculos) {
         this.ehLocadoraDeVeiculos = ehLocadoraDeVeiculos;
     }

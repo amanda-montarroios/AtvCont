@@ -18,4 +18,13 @@ public class Apolice implements Serializable{
     @NonNull private BigDecimal valorPremio;
     @NonNull private BigDecimal valorMaximoSegurado;
 
+    public Apolice(String numero, Veiculo veiculo, BigDecimal valorPremio, BigDecimal valorFranquia, BigDecimal valorMaximoSegurado) {
+        this.numero = numero;
+        this.veiculo = veiculo;
+        this.valorPremio = valorPremio;
+        this.valorFranquia = valorFranquia;
+        this.valorMaximoSegurado = valorMaximoSegurado;
+    }
+
+
 }
