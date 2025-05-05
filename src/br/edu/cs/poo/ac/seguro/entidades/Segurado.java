@@ -5,14 +5,19 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Segurado implements Serializable{
-
-    private static final long serialVersionUID = 1L;
+public class Segurado implements Serializable {
 
     private String nome;
     private Endereco endereco;
     private LocalDate dataCriacao;
     private BigDecimal bonus;
+
+    public Segurado(String nome, Endereco endereco, LocalDate dataCriacao, BigDecimal bonus) {
+        this.nome = nome;
+        this.endereco = endereco;
+        this.dataCriacao = dataCriacao;
+        this.bonus = bonus;
+    }
 
     public String getNome() {
         return nome;
@@ -30,33 +35,26 @@ public class Segurado implements Serializable{
         this.endereco = endereco;
     }
 
-    public LocalDate getDataCriacao() {
+    protected LocalDate getDataCriacao() {
         return dataCriacao;
     }
 
-    protected void setDataCriacao(LocalDate data) {
-        this.dataCriacao = data;
+    protected void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     public BigDecimal getBonus() {
         return bonus;
     }
 
-    public Segurado(String nome, Endereco endereco, LocalDate dataCriacao, BigDecimal bonus) {
-        this.nome = nome;
-        this.endereco = endereco;
-        this.dataCriacao = dataCriacao;
-        this.bonus = bonus;
-    }
-
     public int getIdade() {
-        LocalDate agora = LocalDate.now();
-        int idade = Period.between(getDataCriacao(), agora).getYears();
-        return idade;
+        return Period.between(this.dataCriacao, LocalDate.now()).getYears();
     }
 
     public void creditarBonus(BigDecimal valor) {
-        bonus = bonus.add(valor);
+        if (valor.compareTo(BigDecimal.ZERO) > 0) {
+            bonus = bonus.add(valor);
+        }
     }
 
     public void debitarBonus(BigDecimal valor) {

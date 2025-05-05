@@ -12,6 +12,7 @@ public class PrecoAno {
     public int getAno() {
         return ano;
     }
+
     public double getPreco() {
         return preco;
     }

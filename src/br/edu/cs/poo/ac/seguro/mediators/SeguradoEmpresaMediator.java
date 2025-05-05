@@ -5,13 +5,16 @@ import br.edu.cs.poo.ac.seguro.entidades.SeguradoEmpresa;
 
 public class SeguradoEmpresaMediator {
 
-    private SeguradoEmpresaDAO dao = new SeguradoEmpresaDAO();
-    private static SeguradoEmpresaMediator instancia = new SeguradoEmpresaMediator();
+    private SeguradoEmpresaDAO dao;
+    private SeguradoMediator seguradoMediator = SeguradoMediator.getInstancia();
+    public static final SeguradoEmpresaMediator med = new SeguradoEmpresaMediator();
 
-    private SeguradoEmpresaMediator() {}
+    private SeguradoEmpresaMediator() {
+        dao = new SeguradoEmpresaDAO();
+    }
 
     public static SeguradoEmpresaMediator getInstancia() {
-        return instancia;
+        return med;
     }
 
     public String validarCnpj(String cnpj) {
@@ -71,17 +74,23 @@ public class SeguradoEmpresaMediator {
     }
 
     public String validarSeguradoEmpresa(SeguradoEmpresa seg) {
-        if (seg == null) return "Segurado inválido";
-        if (StringUtils.ehNuloOuBranco(seg.getNome()))
+        if (seg == null) {
+            return "Segurado inválido";
+        }
+        if (StringUtils.ehNuloOuBranco(seg.getNome())) {
             return "Nome deve ser informado";
-        if (seg.getEndereco() == null)
+        }
+        if (seg.getEndereco() == null) {
             return "Endereço deve ser informado";
-        if (seg.getDataCriacao() == null)
+        }
+        if (seg.getDataAbertura() == null) {
             return "Data da abertura deve ser informada";
+        }
 
         String msg = validarCnpj(seg.getCnpj());
-        if (msg != null) return msg;
-
+        if (msg != null) {
+            return msg;
+        }
         return validarFaturamento(seg.getFaturamento());
     }
 }

@@ -4,11 +4,9 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 import br.edu.cs.poo.ac.seguro.entidades.Apolice;
 import br.edu.cs.poo.ac.seguro.entidades.CategoriaVeiculo;
@@ -20,7 +18,6 @@ import br.edu.cs.poo.ac.seguro.entidades.Veiculo;
 import br.edu.cs.poo.ac.seguro.mediators.ApoliceMediator;
 import br.edu.cs.poo.ac.seguro.mediators.DadosVeiculo;
 import br.edu.cs.poo.ac.seguro.mediators.RetornoInclusaoApolice;
-//import br.edu.cs.poo.divisao.RetornoDivisao;
 
 public class TesteApoliceMediator extends TesteMediator {
 
@@ -32,7 +29,6 @@ public class TesteApoliceMediator extends TesteMediator {
     private CadastroObjetos cadEmpresa = new CadastroObjetos(SeguradoEmpresa.class);
     private CadastroObjetos cadVeiculo = new CadastroObjetos(Veiculo.class);
     private CadastroObjetos cadSinistro = new CadastroObjetos(Sinistro.class);
-    private CadastroObjetos cadastro;
 
     @BeforeEach
     public void setUp() {
@@ -77,6 +73,7 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertEquals("Dados do veículo devem ser informados",
                 mediator.incluirApolice(null).getMensagemErro());
     }
+
     @Test
     public void test002() {
         DadosVeiculo dr = new DadosVeiculo(null, "KKK0019", 2020, new BigDecimal("60000.0"), 2);
@@ -92,6 +89,7 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertEquals("CNPJ inválido",
                 mediator.incluirApolice(dr).getMensagemErro());
     }
+
     @Test
     public void test003() {
         DadosVeiculo dr = new DadosVeiculo("07255431089", null, 2020, new BigDecimal("60000.0"), 2);
@@ -101,6 +99,7 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertEquals("Placa do veículo deve ser informada",
                 mediator.incluirApolice(dr).getMensagemErro());
     }
+
     @Test
     public void test004() {
         DadosVeiculo dr = new DadosVeiculo("07255431089", "KKK0019", 2019, new BigDecimal("60000.0"), 2);
@@ -110,6 +109,7 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertEquals("Ano tem que estar entre 2020 e 2025, incluindo estes",
                 mediator.incluirApolice(dr).getMensagemErro());
     }
+
     @Test
     public void test006() {
         DadosVeiculo dr = new DadosVeiculo("07255431089", "KKK0019", 2020, null, 2);
@@ -122,12 +122,14 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertEquals("Valor máximo segurado deve estar entre 75% e 100% do valor do carro encontrado na categoria",
                 mediator.incluirApolice(dr).getMensagemErro());
     }
+
     @Test
     public void test007() {
         DadosVeiculo dr = new DadosVeiculo("07255431089", "KKK0019", 2024, new BigDecimal("57000.0"), 10);
         Assertions.assertEquals("Categoria inválida",
                 mediator.incluirApolice(dr).getMensagemErro());
     }
+
     @Test
     public void test008() {
         DadosVeiculo dr = new DadosVeiculo("07255431089", "KKK0019", 2020, new BigDecimal("57000.0"), 2);
@@ -137,6 +139,7 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertEquals("CNPJ inexistente no cadastro de empresas",
                 mediator.incluirApolice(dr).getMensagemErro());
     }
+
     @Test
     public void test009() {
         String cpf = "07255431089";
@@ -148,19 +151,14 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo vel = new Veiculo(placa, ano, null, sp, CategoriaVeiculo.INTERMEDIARIO);
         cadVeiculo.incluir(vel, placa);
         String numero = LocalDate.now().getYear() + "000" + cpf + placa;
-        Apolice ap = new Apolice(
-                vel,
-                new BigDecimal("2340.0"),
-                new BigDecimal("1800.0"),
-                new BigDecimal("60000.0")
-        );
-        ap.setNumero(numero);
+        Apolice ap = new Apolice(numero, vel, new BigDecimal("1800.0"),
+                new BigDecimal("2340.0"), new BigDecimal("60000.0"), LocalDate.now());
         cadastro.incluir(ap, numero);
         DadosVeiculo dr = new DadosVeiculo(cpf, placa, ano, new BigDecimal("57000.0"), 2);
         Assertions.assertEquals("Apólice já existente para ano atual e veículo",
                 mediator.incluirApolice(dr).getMensagemErro());
     }
-    @Test
+
     public void test010() {
         String cnpj = "11851715000174";
         String placa = "KKK0019";
@@ -171,13 +169,14 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo vel = new Veiculo(placa, ano, se, null, CategoriaVeiculo.INTERMEDIARIO);
         cadVeiculo.incluir(vel, placa);
         String numero = LocalDate.now().getYear() + cnpj + placa;
-        Apolice ap = new Apolice(vel, new BigDecimal("1800.00"),
-                new BigDecimal("2340.00"), new BigDecimal("60000.00"));
+        Apolice ap = new Apolice(numero, vel, new BigDecimal("1800.00"),
+                new BigDecimal("2340.00"), new BigDecimal("60000.00"), LocalDate.now());
         cadastro.incluir(ap, numero);
         DadosVeiculo dr = new DadosVeiculo(cnpj, placa, ano, new BigDecimal("57000.00"), 2);
         Assertions.assertEquals("Apólice já existente para ano atual e veículo",
                 mediator.incluirApolice(dr).getMensagemErro());
     }
+
     @Test
     public void test011() {
         String cpf = "07255431089";
@@ -195,18 +194,14 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo vel = (Veiculo)cadVeiculo.buscar(placa);
         Assertions.assertNotNull(vel);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(velEsp, vel));
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(numero, velEsp, new BigDecimal("2223.00"), new BigDecimal("1710.00"),
+                new BigDecimal("57000.00"), LocalDate.now());
         Apolice ap = (Apolice)cadastro.buscar(numero);
         Assertions.assertNotNull(ap);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(apEsp, ap));
 
     }
+
     @Test
     public void test012() {
         String cnpj = "11851715000174";
@@ -224,17 +219,13 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo vel = (Veiculo)cadVeiculo.buscar(placa);
         Assertions.assertNotNull(vel);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(velEsp, vel));
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(numero, velEsp, new BigDecimal("2223.00"), new BigDecimal("1710.00"),
+                new BigDecimal("57000.00"), LocalDate.now());
         Apolice ap = (Apolice)cadastro.buscar(numero);
         Assertions.assertNotNull(ap);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(apEsp, ap));
     }
+
     @Test
     public void test013() {
         String cpf = "00000000000";
@@ -258,17 +249,13 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo velAlt = (Veiculo)cadVeiculo.buscar(placa);
         Assertions.assertNotNull(velAlt);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(velEsp, velAlt));
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(numero, velEsp, new BigDecimal("2223.00"),
+                new BigDecimal("1710.00"), new BigDecimal("57000.00"), LocalDate.now());
         Apolice ap = (Apolice)cadastro.buscar(numero);
         Assertions.assertNotNull(ap);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(apEsp, ap));
     }
+
     @Test
     public void test014() {
         String cnpj = "00000000000000";
@@ -292,17 +279,13 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo velAlt = (Veiculo)cadVeiculo.buscar(placa);
         Assertions.assertNotNull(velAlt);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(velEsp, velAlt));
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(numero, velEsp, new BigDecimal("2223.00"),
+                new BigDecimal("1710.00"), new BigDecimal("57000.00"), LocalDate.now());
         Apolice ap = (Apolice)cadastro.buscar(numero);
         Assertions.assertNotNull(ap);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(apEsp, ap));
     }
+
     @Test
     public void test015() {
         String cpf = "07255431089";
@@ -323,13 +306,8 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo vel = (Veiculo)cadVeiculo.buscar(placa);
         Assertions.assertNotNull(vel);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(velEsp, vel));
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(numero, velEsp, new BigDecimal("2223.00"),
+                new BigDecimal("1610.00"), new BigDecimal("57000.00"), LocalDate.now());
         Apolice ap = (Apolice)cadastro.buscar(numero);
         Assertions.assertNotNull(ap);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(apEsp, ap));
@@ -337,6 +315,7 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertNotNull(spBusc);
         Assertions.assertEquals(new BigDecimal("1483.00"), spBusc.getBonus());
     }
+
     @Test
     public void test016() {
         String cnpj = "11851715000174";
@@ -357,13 +336,8 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo vel = (Veiculo)cadVeiculo.buscar(placa);
         Assertions.assertNotNull(vel);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(velEsp, vel));
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(numero, velEsp, new BigDecimal("2667.60"),
+                new BigDecimal("1952.00"), new BigDecimal("57000.00"), LocalDate.now());
         Apolice ap = (Apolice)cadastro.buscar(numero);
         Assertions.assertNotNull(ap);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(apEsp, ap));
@@ -371,6 +345,7 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertNotNull(seBusc);
         Assertions.assertEquals(new BigDecimal("1585.60"), seBusc.getBonus());
     }
+
     @Test
     public void test017() {
         String cpf = "07255431089";
@@ -391,13 +366,8 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo vel = (Veiculo)cadVeiculo.buscar(placa);
         Assertions.assertNotNull(vel);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(velEsp, vel));
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(numero, velEsp, new BigDecimal("2223.00"),
+                new BigDecimal("1610.00"), new BigDecimal("57000.00"), LocalDate.now());
         Apolice ap = (Apolice)cadastro.buscar(numero);
         Assertions.assertNotNull(ap);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(apEsp, ap));
@@ -405,6 +375,7 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertNotNull(spBusc);
         Assertions.assertEquals(new BigDecimal("1000.00"), spBusc.getBonus());
     }
+
     @Test
     public void test018() {
         String cnpj = "11851715000174";
@@ -425,13 +396,8 @@ public class TesteApoliceMediator extends TesteMediator {
         Veiculo vel = (Veiculo)cadVeiculo.buscar(placa);
         Assertions.assertNotNull(vel);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(velEsp, vel));
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(numero, velEsp, new BigDecimal("2667.60"),
+                new BigDecimal("1952.00"), new BigDecimal("57000.00"), LocalDate.now());
         Apolice ap = (Apolice)cadastro.buscar(numero);
         Assertions.assertNotNull(ap);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(apEsp, ap));
@@ -439,34 +405,23 @@ public class TesteApoliceMediator extends TesteMediator {
         Assertions.assertNotNull(seBusc);
         Assertions.assertEquals(new BigDecimal("1000.00"), seBusc.getBonus());
     }
+
     @Test
     public void test019() {
         Apolice ap = mediator.buscarApolice(NUM_AP);
         Assertions.assertNull(ap);
     }
+
     @Test
     public void test020() {
-        Veiculo velEsp = new Veiculo(
-                PLACA_KKK6666,
-                2020,
-                null,
-                null,
-                CategoriaVeiculo.INTERMEDIARIO
-        );
-
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
-
+        Apolice apEsp = new Apolice(NUM_AP, null, new BigDecimal("2667.60"),
+                new BigDecimal("1952.00"), new BigDecimal("57000.00"), LocalDate.now());
         cadastro.incluir(apEsp, NUM_AP);
         Apolice ap = mediator.buscarApolice(NUM_AP);
         Assertions.assertNotNull(ap);
         Assertions.assertTrue(ComparadoraObjetosSerial.compareObjectsSerial(apEsp, ap));
     }
+
     @Test
     public void test021() {
         String msg = mediator.excluirApolice(" ");
@@ -476,6 +431,7 @@ public class TesteApoliceMediator extends TesteMediator {
         msg = mediator.excluirApolice(NUM_AP);
         Assertions.assertEquals("Apólice inexistente", msg);
     }
+
     @Test
     public void test022() {
         LocalDate now = LocalDate.now();
@@ -484,18 +440,14 @@ public class TesteApoliceMediator extends TesteMediator {
                 LocalDateTime.now(), "ego", new BigDecimal("50000.00"),TipoSinistro.COLISAO);
         cadVeiculo.incluir(velEsp, PLACA_KKK6666);
         cadSinistro.incluir(sin, NUM_SINISTRO);
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(NUM_AP, velEsp, new BigDecimal("2667.60"),
+                new BigDecimal("1952.00"), new BigDecimal("57000.00"), now);
         cadastro.incluir(apEsp, NUM_AP);
         String msg = mediator.excluirApolice(NUM_AP);
         Assertions.assertEquals("Existe sinistro cadastrado para o veículo em questão " +
                 "e no mesmo ano da apólice", msg);
     }
+
     @Test
     public void test023() {
         LocalDate now = LocalDate.now();
@@ -504,18 +456,15 @@ public class TesteApoliceMediator extends TesteMediator {
                 LocalDateTime.now(), "ego", new BigDecimal("50000.00"),TipoSinistro.COLISAO);
         cadVeiculo.incluir(velEsp, PLACA_KKK6666);
         cadSinistro.incluir(sin, NUM_SINISTRO);
-        Apolice apEsp = new Apolice(
-                velEsp,
-                new BigDecimal("1952.00"),
-                new BigDecimal("2667.60"),
-                new BigDecimal("57000.00")
-        );
-        apEsp.setNumero(NUM_AP);
+        Apolice apEsp = new Apolice(NUM_AP, velEsp, new BigDecimal("2667.60"),
+                new BigDecimal("1952.00"), new BigDecimal("57000.00"), now);
         cadastro.incluir(apEsp, NUM_AP);
         String msg = mediator.excluirApolice(NUM_AP);
         Assertions.assertEquals(null, msg);
     }
-    protected Class<?> getClasse() {
+
+    @Override
+    protected Class getClasse() {
         return Apolice.class;
     }
 }

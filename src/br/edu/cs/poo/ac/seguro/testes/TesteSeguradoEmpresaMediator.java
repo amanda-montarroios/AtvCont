@@ -1,16 +1,16 @@
 package br.edu.cs.poo.ac.seguro.testes;
 
+import br.edu.cs.poo.ac.seguro.mediators.SeguradoEmpresaMediator;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import br.edu.cs.poo.ac.seguro.entidades.Endereco;
 import br.edu.cs.poo.ac.seguro.entidades.SeguradoEmpresa;
-import br.edu.cs.poo.ac.seguro.mediators.SeguradoEmpresaMediator;
 
 public class TesteSeguradoEmpresaMediator extends TesteMediator {
     private SeguradoEmpresaMediator med = SeguradoEmpresaMediator.getInstancia();
-    protected Class<?> getClasse() {
+    protected Class getClasse() {
         return SeguradoEmpresa.class;
     }
 
@@ -18,7 +18,6 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     public void test01() {
         String msg = "CNPJ deve ser informado";
         String ret = med.validarCnpj(null);
-
         assertEquals(msg, ret);
         ret = med.validarCnpj(" ");
         assertEquals(msg, ret);
@@ -27,21 +26,18 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     @Test
     public void test02() {
         String ret = med.validarCnpj("123456789012");
-
         assertEquals("CNPJ deve ter 14 caracteres", ret);
     }
 
     @Test
     public void test03() {
         String ret = med.validarCnpj("11851715000171");
-
         assertEquals("CNPJ com dígito inválido", ret);
     }
 
     @Test
     public void test04() {
         String ret = med.validarCnpj("11851715000174");
-
         assertEquals(null, ret);
     }
 
@@ -49,7 +45,6 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     public void test05() {
         String msg = "Faturamento deve ser maior que zero";
         String ret = med.validarFaturamento(-10.0);
-
         assertEquals(msg, ret);
         ret = med.validarFaturamento(0.0);
         assertEquals(msg, ret);
@@ -58,14 +53,12 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     @Test
     public void test06() {
         String ret = med.validarFaturamento(10.0);
-
         assertEquals(null, ret);
     }
 
     @Test
     public void test07() {
         String cnpj = "11851715000174";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoEmpresa seg = new SeguradoEmpresa("ACME LTDA", end, LocalDate.now(),
@@ -78,7 +71,6 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     @Test
     public void test08() {
         String cnpj = "11851715000274";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoEmpresa seg = new SeguradoEmpresa("ACME LTDA", end, LocalDate.now(),
@@ -117,7 +109,6 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     @Test
     public void test10() {
         String cnpj = "11851715000174";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoEmpresa seg = new SeguradoEmpresa("ACME LTDA", end, LocalDate.now(),
@@ -131,7 +122,6 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     @Test
     public void test11() {
         String cnpj = "11851715000174";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoEmpresa seg = new SeguradoEmpresa("ACME LTDA", end, LocalDate.now(),
@@ -176,7 +166,6 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     @Test
     public void test13() {
         String cnpj = "11851715000174";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoEmpresa seg = new SeguradoEmpresa("ACME LTDA", end, LocalDate.now(),
@@ -197,7 +186,6 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     public void test14() {
         String cnpjOri = "11851715000274";
         String cnpj = "11851715000174";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoEmpresa seg = new SeguradoEmpresa("ACME LTDA", end, LocalDate.now(),
@@ -214,7 +202,6 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     @Test
     public void test15() {
         String cnpj = "11851715000174";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoEmpresa seg = new SeguradoEmpresa("ACME LTDA", end, LocalDate.now(),
@@ -230,7 +217,6 @@ public class TesteSeguradoEmpresaMediator extends TesteMediator {
     public void test16() {
         String cnpjOri = "11851715000274";
         String cnpj = "11851715000174";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoEmpresa seg = new SeguradoEmpresa("ACME LTDA", end, LocalDate.now(),

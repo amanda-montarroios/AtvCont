@@ -10,25 +10,23 @@ public class SeguradoEmpresaDAO extends DAOGenerico{
     }
 
     public SeguradoEmpresa buscar(String cnpj) {
-        return (SeguradoEmpresa) cadastro.buscar(cnpj);
+        return (SeguradoEmpresa)cadastro.buscar(cnpj);
     }
 
-    public boolean incluir(SeguradoEmpresa seguradoEmpresa) {
-        if (buscar(seguradoEmpresa.getCnpj()) != null){
+    public boolean incluir(SeguradoEmpresa segurado) {
+        if (buscar(segurado.getCnpj()) != null) {
             return false;
-        }
-        else {
-            cadastro.incluir(seguradoEmpresa, seguradoEmpresa.getCnpj());
+        } else {
+            cadastro.incluir(segurado, segurado.getCnpj());
             return true;
         }
     }
 
-    public boolean alterar(SeguradoEmpresa seguradoEmpresa) {
-        if (buscar(seguradoEmpresa.getCnpj()) == null) {
+    public boolean alterar(SeguradoEmpresa segurado) {
+        if (buscar(segurado.getCnpj()) == null) {
             return false;
-        }
-        else {
-            cadastro.alterar(seguradoEmpresa, seguradoEmpresa.getCnpj());
+        } else {
+            cadastro.alterar(segurado, segurado.getCnpj());
             return true;
         }
     }
@@ -36,8 +34,7 @@ public class SeguradoEmpresaDAO extends DAOGenerico{
     public boolean excluir(String cnpj) {
         if (buscar(cnpj) == null) {
             return false;
-        }
-        else {
+        } else {
             cadastro.excluir(cnpj);
             return true;
         }

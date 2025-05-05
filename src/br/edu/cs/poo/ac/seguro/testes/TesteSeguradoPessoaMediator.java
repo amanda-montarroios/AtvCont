@@ -6,16 +6,17 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import br.edu.cs.poo.ac.seguro.mediators.SeguradoPessoaMediator;
 import org.junit.jupiter.api.Test;
 import br.edu.cs.poo.ac.seguro.entidades.Endereco;
 import br.edu.cs.poo.ac.seguro.entidades.SeguradoPessoa;
-import br.edu.cs.poo.ac.seguro.mediators.SeguradoPessoaMediator;
 
 public class TesteSeguradoPessoaMediator extends TesteMediator {
+
     private SeguradoPessoaMediator med = SeguradoPessoaMediator.getInstancia();
 
     @Override
-    protected Class<?> getClasse() {
+    protected Class getClasse() {
         return SeguradoPessoa.class;
     }
 
@@ -23,7 +24,6 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     public void test01() {
         String msg = "CPF deve ser informado";
         String ret = med.validarCpf(null);
-
         assertEquals(msg, ret);
         ret = med.validarCpf(" ");
         assertEquals(msg, ret);
@@ -32,21 +32,18 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     @Test
     public void test02() {
         String ret = med.validarCpf("123456789012");
-
         assertEquals("CPF deve ter 11 caracteres", ret);
     }
 
     @Test
     public void test03() {
         String ret = med.validarCpf("07255431081");
-
         assertEquals("CPF com dígito inválido", ret);
     }
 
     @Test
     public void test04() {
         String ret = med.validarCpf("07255431089");
-
         assertEquals(null, ret);
     }
 
@@ -54,14 +51,12 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     public void test05() {
         String msg = "Renda deve ser maior ou igual à zero";
         String ret = med.validarRenda(-10.0);
-
         assertEquals(msg, ret);
     }
 
     @Test
     public void test06() {
         String ret = med.validarRenda(10.0);
-
         assertEquals(null, ret);
         ret = med.validarRenda(0.0);
         assertEquals(null, ret);
@@ -70,7 +65,6 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     @Test
     public void test07() {
         String cpf = "07255431089";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoPessoa seg = new SeguradoPessoa("PAULA", end, LocalDate.now(),
@@ -83,7 +77,6 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     @Test
     public void test08() {
         String cpf = "07255431089";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoPessoa seg = new SeguradoPessoa("PAULA", end, LocalDate.now(),
@@ -122,7 +115,6 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     @Test
     public void test10() {
         String cpf = "07255431089";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoPessoa seg = new SeguradoPessoa("PAULA", end, LocalDate.now(),
@@ -136,7 +128,6 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     @Test
     public void test11() {
         String cpf = "07255431089";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoPessoa seg = new SeguradoPessoa("PAULA", end, LocalDate.now(),
@@ -179,7 +170,6 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     @Test
     public void test13() {
         String cpf = "07255431089";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoPessoa seg = new SeguradoPessoa("PAULA", end, LocalDate.now(),
@@ -200,7 +190,6 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     public void test14() {
         String cpfOri = "07255432089";
         String cpf = "07255431089";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoPessoa seg = new SeguradoPessoa("PAULA", end, LocalDate.now(),
@@ -217,7 +206,6 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     @Test
     public void test15() {
         String cpf = "07255431089";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoPessoa seg = new SeguradoPessoa("PAULA", end, LocalDate.now(),
@@ -233,7 +221,6 @@ public class TesteSeguradoPessoaMediator extends TesteMediator {
     public void test16() {
         String cpfOri = "07255431089";
         String cpf = "07255432089";
-
         Endereco end = new Endereco("Rua A", "51020002", "22", "ap 201", "Brasil", "PE",
                 "Recife");
         SeguradoPessoa seg = new SeguradoPessoa("PAULA", end, LocalDate.now(),
