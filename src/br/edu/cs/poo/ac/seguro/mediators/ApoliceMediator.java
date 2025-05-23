@@ -10,13 +10,7 @@ import br.edu.cs.poo.ac.seguro.daos.SeguradoEmpresaDAO;
 import br.edu.cs.poo.ac.seguro.daos.SeguradoPessoaDAO;
 import br.edu.cs.poo.ac.seguro.daos.SinistroDAO;
 import br.edu.cs.poo.ac.seguro.daos.VeiculoDAO;
-import br.edu.cs.poo.ac.seguro.entidades.Apolice;
-import br.edu.cs.poo.ac.seguro.entidades.CategoriaVeiculo;
-import br.edu.cs.poo.ac.seguro.entidades.PrecoAno;
-import br.edu.cs.poo.ac.seguro.entidades.SeguradoEmpresa;
-import br.edu.cs.poo.ac.seguro.entidades.SeguradoPessoa;
-import br.edu.cs.poo.ac.seguro.entidades.Sinistro;
-import br.edu.cs.poo.ac.seguro.entidades.Veiculo;
+import br.edu.cs.poo.ac.seguro.entidades.*;
 
 public class ApoliceMediator {
     private SeguradoPessoaDAO daoSegPes;
@@ -124,13 +118,12 @@ public class ApoliceMediator {
         if (apoliceExistente != null) {
             return new RetornoInclusaoApolice(null, "Apólice já existente para ano atual e veículo");
         }
-
-        Veiculo novoVeiculo = new Veiculo(dados.getPlaca(), dados.getAno(), empresa, pessoa, categoria);
+        Segurado segurado = isCPF ? pessoa : empresa;
+        Veiculo novoVeiculo = new Veiculo(dados.getPlaca(), dados.getAno(), segurado, categoria);
         if (veiculo == null) {
             daoVel.incluir(novoVeiculo);
         } else {
-            veiculo.setProprietarioPessoa(pessoa);
-            veiculo.setProprietarioEmpresa(empresa);
+            veiculo.setProprietario(segurado);
             daoVel.alterar(veiculo);
             novoVeiculo = veiculo;
         }
@@ -141,7 +134,7 @@ public class ApoliceMediator {
             vpb = vpa.multiply(new BigDecimal("1.2")).setScale(2, RoundingMode.HALF_UP);
         }
 
-        BigDecimal bonus = pessoa != null ? pessoa.getBonus() : empresa.getBonus();
+        BigDecimal bonus = segurado.getBonus();
         BigDecimal vpc = vpb.subtract(bonus.divide(new BigDecimal("10"), 2, RoundingMode.HALF_UP));
         BigDecimal premio = vpc.compareTo(BigDecimal.ZERO) > 0 ? vpc : BigDecimal.ZERO;
         BigDecimal franquia = vpb.multiply(new BigDecimal("1.3")).setScale(2, RoundingMode.HALF_UP);
