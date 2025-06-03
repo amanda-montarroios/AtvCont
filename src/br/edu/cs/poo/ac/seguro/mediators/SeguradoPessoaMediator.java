@@ -1,20 +1,23 @@
 package br.edu.cs.poo.ac.seguro.mediators;
 
+import java.time.LocalDate;
+
 import br.edu.cs.poo.ac.seguro.daos.SeguradoPessoaDAO;
 import br.edu.cs.poo.ac.seguro.entidades.SeguradoPessoa;
 
+@SuppressWarnings("unused")
 public class SeguradoPessoaMediator {
 
-    public SeguradoMediator seguradoMediator = SeguradoMediator.getInstancia();
-    public static final SeguradoPessoaMediator med = new SeguradoPessoaMediator();
-    private SeguradoPessoaDAO dao;
+    private SeguradoMediator seguradoMediator = SeguradoMediator.getInstancia();
+    private SeguradoPessoaDAO dao = new SeguradoPessoaDAO();
+
+    private static SeguradoPessoaMediator instancia = new SeguradoPessoaMediator();
 
     private SeguradoPessoaMediator() {
-        dao = new SeguradoPessoaDAO();
     }
 
     public static SeguradoPessoaMediator getInstancia() {
-        return med;
+        return instancia;
     }
 
     public String validarCpf(String cpf) {
@@ -31,6 +34,23 @@ public class SeguradoPessoaMediator {
     public String validarRenda(double renda) {
         if (renda < 0)
             return "Renda deve ser maior ou igual à zero";
+        return null;
+    }
+
+    public String validarSeguradoPessoa(SeguradoPessoa seg) {
+        if (seg == null) return "Segurado não pode ser nulo";
+        if (StringUtils.ehNuloOuBranco(seg.getNome()))
+            return "Nome deve ser informado";
+        if (seg.getEndereco() == null)
+            return "Endereço deve ser informado";
+        if (seg.getDataNascimento() == null)
+            return "Data do nascimento deve ser informada";
+        String erroCpf = validarCpf(seg.getCpf());
+        if (erroCpf != null)
+            return erroCpf;
+        String erroRenda = validarRenda(seg.getRenda());
+        if (erroRenda != null)
+            return erroRenda;
         return null;
     }
 
@@ -66,22 +86,5 @@ public class SeguradoPessoaMediator {
 
     public SeguradoPessoa buscarSeguradoPessoa(String cpf) {
         return dao.buscar(cpf);
-    }
-
-    public String validarSeguradoPessoa(SeguradoPessoa seg) {
-        if (seg == null) return "Segurado não pode ser nulo";
-        if (StringUtils.ehNuloOuBranco(seg.getNome()))
-            return "Nome deve ser informado";
-        if (seg.getEndereco() == null)
-            return "Endereço deve ser informado";
-        if (seg.getDataNascimento() == null)
-            return "Data do nascimento deve ser informada";
-        String erroCpf = validarCpf(seg.getCpf());
-        if (erroCpf != null)
-            return erroCpf;
-        String erroRenda = validarRenda(seg.getRenda());
-        if (erroRenda != null)
-            return erroRenda;
-        return null;
     }
 }

@@ -6,12 +6,13 @@ import br.edu.cs.poo.ac.seguro.entidades.Endereco;
 
 public class SeguradoMediator {
 
-    private static final SeguradoMediator med = new SeguradoMediator();
+    private static SeguradoMediator instancia = new SeguradoMediator();
 
-    private SeguradoMediator() {}
+    private SeguradoMediator() {
+    }
 
     public static SeguradoMediator getInstancia() {
-        return med;
+        return instancia;
     }
 
     public String validarNome(String nome) {
@@ -28,6 +29,7 @@ public class SeguradoMediator {
         if (endereco == null)
             return "Endereço deve ser informado";
 
+        //CEP
         if (StringUtils.ehNuloOuBranco(endereco.getCep()))
             return "CEP deve ser informado";
         if (endereco.getCep().length() != 8)
@@ -35,27 +37,33 @@ public class SeguradoMediator {
         if (!endereco.getCep().matches("\\d{8}"))
             return "CEP deve ter formato NNNNNNNN";
 
+        //Cidade
         if (StringUtils.ehNuloOuBranco(endereco.getCidade()))
             return "Cidade deve ser informada";
         if (endereco.getCidade().length() > 100)
             return "Tamanho da cidade deve ser no máximo 100 caracteres";
 
+        //Complemento
         if (!StringUtils.ehNuloOuBranco(endereco.getComplemento()) && endereco.getComplemento().length() > 30)
             return "Tamanho do complemento deve ser no máximo 30 caracteres";
 
+        //Sigla do Estado
         if (StringUtils.ehNuloOuBranco(endereco.getEstado()))
             return "Sigla do estado deve ser informada";
         if (endereco.getEstado().length() != 2)
             return "Tamanho da sigla do estado deve ser 2 caracteres";
 
+        //País
         if (StringUtils.ehNuloOuBranco(endereco.getPais()))
             return "País deve ser informado";
         if (endereco.getPais().length() > 40)
             return "Tamanho do país deve ser no máximo 40 caracteres";
 
+        //Logradouro
         if (StringUtils.ehNuloOuBranco(endereco.getLogradouro()))
             return "Logradouro deve ser informado";
 
+        //Número
         if (!StringUtils.ehNuloOuBranco(endereco.getNumero()) && endereco.getNumero().length() > 20)
             return "Tamanho do número deve ser no máximo 20 caracteres";
 

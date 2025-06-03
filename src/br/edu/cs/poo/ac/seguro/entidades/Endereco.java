@@ -2,7 +2,9 @@ package br.edu.cs.poo.ac.seguro.entidades;
 
 import java.io.Serializable;
 
-public class Endereco implements Serializable {
+public class Endereco implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     private String logradouro;
     private String cep;
@@ -12,8 +14,8 @@ public class Endereco implements Serializable {
     private String estado;
     private String cidade;
 
-    public Endereco(String logradouro, String cep, String numero, String complemento,
-                    String pais, String estado, String cidade) {
+    public Endereco(String logradouro, String cep, String numero, String complemento, String pais, String estado,
+                    String cidade) {
         this.logradouro = logradouro;
         this.cep = cep;
         this.numero = numero;
@@ -78,4 +80,5 @@ public class Endereco implements Serializable {
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
+
 }

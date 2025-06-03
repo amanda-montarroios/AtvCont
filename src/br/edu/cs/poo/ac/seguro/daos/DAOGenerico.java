@@ -4,84 +4,53 @@ import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
 import br.edu.cs.poo.ac.seguro.entidades.Registro;
 
 public abstract class DAOGenerico<T extends Registro> {
+
     private CadastroObjetos cadastro;
 
-    protected DAOGenerico() {
-        Class<T> classeEntidade = getClasseEntidade();
-        if (classeEntidade == null) {
-            throw new IllegalStateException("getClasseEntidade() retornou null durante a construção do DAOGenerico. Verifique a implementação na subclasse.");
-        }
-        this.cadastro = new CadastroObjetos(classeEntidade);
+    public DAOGenerico() {
+        this.cadastro = new CadastroObjetos(getClasseEntidade());
     }
 
     public abstract Class<T> getClasseEntidade();
 
-    public boolean incluir(T reg) {
-        if (reg == null || reg.getIdUnico() == null || reg.getIdUnico().isEmpty()) {
+    public T buscar(String id) {
+        return (T) cadastro.buscar(id);
+    }
+
+    public boolean incluir(T entidade) {
+        if (buscar(entidade.getIdUnico()) != null) {
             return false;
-        }
-        try {
-            if (buscar(reg.getIdUnico()) != null) {
-                return false;
-            }
-            this.cadastro.incluir(reg, reg.getIdUnico());
+        } else {
+            cadastro.incluir(entidade, entidade.getIdUnico());
             return true;
-        } catch (Exception e) {
-            return false;
         }
     }
 
-    public boolean alterar(T reg) {
-        if (reg == null || reg.getIdUnico() == null || reg.getIdUnico().isEmpty()) {
+    public boolean alterar(T entidade) {
+        if (buscar(entidade.getIdUnico()) == null) {
             return false;
-        }
-        if (buscar(reg.getIdUnico()) == null) {
-            return false;
-        }
-        try {
-            this.cadastro.alterar(reg, reg.getIdUnico());
+        } else {
+            cadastro.alterar(entidade, entidade.getIdUnico());
             return true;
-        } catch (Exception e) {
+        }
+    }
+
+    public boolean excluir(String id) {
+        if (buscar(id) == null) {
             return false;
+        } else {
+            cadastro.excluir(id);
+            return true;
         }
     }
 
     @SuppressWarnings("unchecked")
-    public T buscar(String idUnico) {
-        if (idUnico == null || idUnico.isEmpty()) {
-            return null;
+    public T[] buscarTodos() {
+        Object[] objs = cadastro.buscarTodos();  // Retorna Serializable[] ou Object[]
+        T[] array = (T[]) java.lang.reflect.Array.newInstance(getClasseEntidade(), objs.length);
+        for (int i = 0; i < objs.length; i++) {
+            array[i] = (T) objs[i];
         }
-        Object obj = this.cadastro.buscar(idUnico);
-        if (obj != null && getClasseEntidade().isInstance(obj)) {
-            return (T) obj;
-        }
-        return null;
-    }
-
-    public Registro[] buscarTodos() {
-        Object[] objetos = this.cadastro.buscarTodos(getClasseEntidade());
-        if (objetos == null || objetos.length == 0) {
-            return new Registro[0];
-        }
-        Registro[] registros = new Registro[objetos.length];
-        for (int i = 0; i < objetos.length; i++) {
-            registros[i] = (Registro) objetos[i];
-        }
-        return registros;
-    }
-
-    public boolean excluir(String idUnico) {
-        if (idUnico == null || idUnico.isEmpty()) {
-            return false;
-        }
-        if (buscar(idUnico) == null) {
-            return false;
-        }
-        try {
-            this.cadastro.excluir(idUnico);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return array;
     }
 }

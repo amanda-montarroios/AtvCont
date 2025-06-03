@@ -2,9 +2,14 @@ package br.edu.cs.poo.ac.seguro.daos;
 
 import br.edu.cs.poo.ac.seguro.entidades.SeguradoEmpresa;
 
-public class SeguradoEmpresaDAO extends SeguradoDAO {
+public class SeguradoEmpresaDAO extends SeguradoDAO<SeguradoEmpresa> {
 
-    public SeguradoEmpresa buscar(String numero) {
-        return (SeguradoEmpresa) buscar(numero);
+    @Override
+    public Class<SeguradoEmpresa> getClasseEntidade() {
+        return SeguradoEmpresa.class;
+    }
+
+    public SeguradoEmpresa buscar(String id) {
+        return (SeguradoEmpresa) super.buscar(id);
     }
 }
