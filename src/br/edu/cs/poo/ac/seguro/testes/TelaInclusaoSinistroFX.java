@@ -6,7 +6,7 @@ import br.edu.cs.poo.ac.seguro.mediators.DadosSinistro;
 import br.edu.cs.poo.ac.seguro.mediators.SinistroMediator;
 import br.edu.cs.poo.ac.seguro.daos.VeiculoDAO;
 import br.edu.cs.poo.ac.seguro.daos.ApoliceDAO;
-import br.edu.cs.poo.ac.seguro.entidades.*; // Importa todas as entidades necessárias
+import br.edu.cs.poo.ac.seguro.entidades.*;
 import br.edu.cs.poo.ac.seguro.excecoes.ExcecaoValidacaoDados;
 
 import javafx.application.Application;
@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.ColumnConstraints; // Adicionado para controle de colunas
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -53,20 +54,29 @@ public class TelaInclusaoSinistroFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Inclusão de Sinistro");
+        primaryStage.setTitle("Sistema de Inclusão de Sinistro"); // Título da janela principal
 
         GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setAlignment(Pos.TOP_LEFT); // Alinhamento consistente
+        grid.setHgap(15); // Espaçamento horizontal consistente
+        grid.setVgap(10); // Espaçamento vertical consistente
+        grid.setPadding(new Insets(30, 30, 30, 30)); // Padding consistente
+
+        // Configuração das colunas para melhor alinhamento (igual ao CRUDSeguradoPessoaFX)
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPrefWidth(150); // Largura um pouco maior para labels
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPrefWidth(220); // Largura preferencial para campos de texto
+        ColumnConstraints col3 = new ColumnConstraints();
+        col3.setPrefWidth(100); // Espaço para botões (se houver, aqui não tem em todas as linhas)
+        grid.getColumnConstraints().addAll(col1, col2, col3);
 
         initComponents();
         setupLayout(grid);
         addListeners();
         setupTabOrder();
 
-        Scene scene = new Scene(grid, 450, 350);
+        Scene scene = new Scene(grid, 580, 420); // Tamanho ajustado para o novo layout
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -78,13 +88,16 @@ public class TelaInclusaoSinistroFX extends Application {
 
         txtDataHoraSinistro = new TextField();
         txtDataHoraSinistro.setPromptText("dd/MM/yyyy HH:mm:ss");
+        txtDataHoraSinistro.setMaxWidth(180); // Ajuste de largura
         setupDateTimeMask(txtDataHoraSinistro);
 
         txtUsuarioRegistro = new TextField();
         txtUsuarioRegistro.setPromptText("Nome do Usuário");
+        txtUsuarioRegistro.setMaxWidth(200); // Ajuste de largura
 
         txtValorSinistro = new TextField();
         txtValorSinistro.setPromptText("Ex: 1234,56");
+        txtValorSinistro.setMaxWidth(150); // Ajuste de largura
         setupCurrencyMask(txtValorSinistro);
 
         cmbTipoSinistro = new ComboBox<>();
@@ -107,31 +120,61 @@ public class TelaInclusaoSinistroFX extends Application {
         if (!cmbTipoSinistro.getItems().isEmpty()) {
             cmbTipoSinistro.getSelectionModel().selectFirst();
         }
+        cmbTipoSinistro.setPrefWidth(200); // Define uma largura preferencial
 
-        btnIncluir = new Button("Incluir");
-        btnLimpar = new Button("Limpar");
+        btnIncluir = new Button("Incluir Sinistro");
+        btnIncluir.setPrefWidth(130); // Largura padronizada
+        // Removido: btnIncluir.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20;");
+
+        btnLimpar = new Button("Limpar Campos");
+        btnLimpar.setPrefWidth(130); // Largura padronizada
+        // Removido: btnLimpar.setStyle("-fx-background-color: #6c757d; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20;");
     }
 
     private void setupLayout(GridPane grid) {
-        grid.add(new Label("Placa:"), 0, 0);
-        grid.add(txtPlaca, 1, 0);
+        int row = 0;
 
-        grid.add(new Label("Data/Hora Sinistro:"), 0, 1);
-        grid.add(txtDataHoraSinistro, 1, 1);
+        // Título Principal (igual ao CRUDSeguradoPessoaFX)
+        Label mainTitle = new Label("Inclusão de Sinistro");
+        mainTitle.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #333;");
+        GridPane.setHalignment(mainTitle, javafx.geometry.HPos.CENTER);
+        grid.add(mainTitle, 0, row, 3, 1); // Ocupa 3 colunas
+        row++;
 
-        grid.add(new Label("Usuário Registro:"), 0, 2);
-        grid.add(txtUsuarioRegistro, 1, 2);
+        // Separador visual (igual ao CRUDSeguradoPessoaFX)
+        grid.add(new Separator(), 0, row, 3, 1);
+        row++;
 
-        grid.add(new Label("Valor Sinistro:"), 0, 3);
-        grid.add(txtValorSinistro, 1, 3);
+        // Campos de entrada
+        grid.add(new Label("Placa:"), 0, row);
+        grid.add(txtPlaca, 1, row);
+        row++;
 
-        grid.add(new Label("Tipo Sinistro:"), 0, 4);
-        grid.add(cmbTipoSinistro, 1, 4);
+        grid.add(new Label("Data/Hora Sinistro:"), 0, row);
+        grid.add(txtDataHoraSinistro, 1, row);
+        row++;
 
-        HBox hbButtons = new HBox(10);
-        hbButtons.setAlignment(Pos.BOTTOM_RIGHT);
+        grid.add(new Label("Usuário Registro:"), 0, row);
+        grid.add(txtUsuarioRegistro, 1, row, 2, 1); // Ocupa 2 colunas
+        row++;
+
+        grid.add(new Label("Valor Sinistro:"), 0, row);
+        grid.add(txtValorSinistro, 1, row);
+        row++;
+
+        grid.add(new Label("Tipo Sinistro:"), 0, row);
+        grid.add(cmbTipoSinistro, 1, row);
+        row++;
+
+        // Separador visual antes dos botões
+        grid.add(new Separator(), 0, row, 3, 1);
+        row++;
+
+        // HBox para os botões (similar ao CRUDSeguradoPessoaFX)
+        HBox hbButtons = new HBox(15); // Espaçamento maior entre os botões
+        hbButtons.setAlignment(Pos.BOTTOM_RIGHT); // Alinha os botões à direita
         hbButtons.getChildren().addAll(btnIncluir, btnLimpar);
-        grid.add(hbButtons, 1, 5);
+        grid.add(hbButtons, 1, row, 2, 1); // Adiciona na coluna 1, ocupando 2 colunas
     }
 
     private void addListeners() {
@@ -171,7 +214,7 @@ public class TelaInclusaoSinistroFX extends Application {
                         LocalDateTime.parse(text, DATE_TIME_FORMATTER);
                         textField.setStyle("");
                     } catch (DateTimeParseException e) {
-                        textField.setStyle("-fx-border-color: red;");
+                        textField.setStyle("-fx-border-color: red; -fx-border-width: 2;"); // Borda mais grossa
                         showAlert(Alert.AlertType.ERROR, "Erro de Formato", "Data/Hora do sinistro inválida. Use o formato " + format);
                     }
                 } else {
@@ -204,7 +247,7 @@ public class TelaInclusaoSinistroFX extends Application {
                         textField.setText(DECIMAL_FORMAT.format(value));
                         textField.setStyle("");
                     } catch (NumberFormatException e) {
-                        textField.setStyle("-fx-border-color: red;");
+                        textField.setStyle("-fx-border-color: red; -fx-border-width: 2;"); // Borda mais grossa
                         showAlert(Alert.AlertType.ERROR, "Erro de Formato", "Valor do sinistro inválido. Use apenas números, vírgula para centavos e ponto para milhares (opcional).");
                     }
                 } else {
@@ -250,10 +293,10 @@ public class TelaInclusaoSinistroFX extends Application {
             showAlert(Alert.AlertType.ERROR, "Erro de Validação", "Problemas na inclusão do sinistro:\n" + mensagensErro);
         } catch (DateTimeParseException e) {
             showAlert(Alert.AlertType.ERROR, "Erro de Formato", "Data/Hora do sinistro inválida. Use o formato dd/MM/yyyy HH:mm:ss.");
-            txtDataHoraSinistro.setStyle("-fx-border-color: red;");
+            txtDataHoraSinistro.setStyle("-fx-border-color: red; -fx-border-width: 2;");
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.ERROR, "Erro de Formato", "Valor do sinistro inválido. Use apenas números, vírgula para centavos e ponto para milhares (opcional).");
-            txtValorSinistro.setStyle("-fx-border-color: red;");
+            txtValorSinistro.setStyle("-fx-border-color: red; -fx-border-width: 2;");
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erro Inesperado", "Ocorreu um erro inesperado: " + e.getMessage());
             e.printStackTrace();
@@ -283,20 +326,15 @@ public class TelaInclusaoSinistroFX extends Application {
         alert.showAndWait();
     }
 
-    public static void main(String[] args) { // Este main lançará esta aplicação diretamente
-        // Inicializa as DAOs e adiciona alguns dados de exemplo para teste
+    public static void main(String[] args) {
         try {
-            // Instancie os DAOs que serão usados para incluir dados de teste
             VeiculoDAO veiculoDAO = new VeiculoDAO();
             ApoliceDAO apoliceDAO = new ApoliceDAO();
             SeguradoPessoaDAO segPesDAO = new SeguradoPessoaDAO();
-            SeguradoEmpresaDAO segEmpDAO = new SeguradoEmpresaDAO(); // Adicionado para inicialização, se necessário
+            SeguradoEmpresaDAO segEmpDAO = new SeguradoEmpresaDAO();
 
-            // --- Dados de Teste para Sinistro (para testar inclusão de sinistro) ---
-            // Crie um endereço e segurado de exemplo
             Endereco enderecoExemplo = new Endereco("Rua Exemplo", "50000-000", "123", "Ap. 101", "Brasil", "PE", "Recife");
 
-            // Crie uma instância de SeguradoPessoa (que é uma subclasse concreta de Segurado)
             SeguradoPessoa seguradoPessoaTeste = new SeguradoPessoa( "Carlos Teste", enderecoExemplo, LocalDate.of(1980, 1, 1), new BigDecimal("100.00"),"98765432100",10000);
             if (segPesDAO.buscar(seguradoPessoaTeste.getIdUnico()) == null) {
                 if (segPesDAO.incluir(seguradoPessoaTeste)) {
@@ -308,7 +346,6 @@ public class TelaInclusaoSinistroFX extends Application {
                 System.out.println("Segurado Pessoa de Teste 98765432100 já existe.");
             }
 
-            // Crie um veículo de exemplo e inclua no DAO
             Veiculo veiculoExemplo = new Veiculo("ABC1234", 2023, seguradoPessoaTeste, CategoriaVeiculo.BASICO);
             if (veiculoDAO.buscar(veiculoExemplo.getIdUnico()) == null) {
                 if (!veiculoDAO.incluir(veiculoExemplo)) {
@@ -320,16 +357,13 @@ public class TelaInclusaoSinistroFX extends Application {
                 System.out.println("Veículo ABC1234 já existe.");
             }
 
-            // Crie uma apólice vigente para o veículo de exemplo e inclua no DAO
-            // Data atual: Monday, June 2, 2025 at 5:31:19 PM -03.
-            // A apólice deve ser vigente para a data atual (02/06/2025).
             Apolice apoliceExemplo = new Apolice(
                     "APOLICE001",
                     veiculoExemplo,
                     new BigDecimal("500.00"),
                     new BigDecimal("1200.00"),
-                    new BigDecimal("100000.00"), // Valor Máximo Segurado (alto para não dar erro fácil)
-                    LocalDate.of(2025, 1, 1) // Data de Início de Vigência: 01/01/2025 (vigente em 02/06/2025)
+                    new BigDecimal("100000.00"),
+                    LocalDate.of(2025, 1, 1)
             );
             if (apoliceDAO.buscar(apoliceExemplo.getIdUnico()) == null) {
                 if (!apoliceDAO.incluir(apoliceExemplo)) {
